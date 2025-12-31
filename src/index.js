@@ -1,5 +1,10 @@
 import express from "express";
 import cors from "cors";
+import whatsappRoutes from "./routes/whatsapp.routes.js";
+
+app.use(express.json());
+app.use("/api/whatsapp", whatsappRoutes);
+
 
 const app = express();
 
