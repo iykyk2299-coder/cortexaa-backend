@@ -2,26 +2,29 @@ import express from "express";
 import cors from "cors";
 import whatsappRoutes from "./routes/whatsapp.routes.js";
 
-app.use(express.json());
-app.use("/api/whatsapp", whatsappRoutes);
-
-
 const app = express();
 
-/* 🔥 CORS — add before routes */
+/* CORS */
 app.use(cors());
 app.options("*", cors());
 
-/* Root check */
+/* 🔥 BODY PARSER — MUST BE BEFORE ROUTES */
+app.use(express.json());
+
+/* Root */
 app.get("/", (req, res) => {
   res.send("Cortexaa backend alive");
 });
 
-/* Health check */
+/* Health */
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
+/* WhatsApp */
+app.use("/api/whatsapp", whatsappRoutes);
+
+/* Start */
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Server running on", PORT);

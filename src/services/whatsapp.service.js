@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export async function sendWhatsAppMessage(to, text) {
   if (
     !process.env.WHATSAPP_ACCESS_TOKEN ||
@@ -8,21 +10,21 @@ export async function sendWhatsAppMessage(to, text) {
 
   const url = `https://graph.facebook.com/v22.0/${process.env.WHATSAPP_PHONE_NUMBER_ID}/messages`;
 
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.WHATSAPP_ACCESS_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
+  const response = await axios.post(
+    url,
+    {
       messaging_product: "whatsapp",
       to,
       type: "text",
       text: { body: text },
-    }),
-  });
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.WHATSAPP_ACCESS_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
-  const data = await res.json();
-  if (!res.ok) throw new Error(JSON.stringify(data));
-  return data;
+  return response.data;
 }
