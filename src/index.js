@@ -1,4 +1,8 @@
 import express from "express";
+import cors from "cors";
+
+app.use(cors());
+app.options("*", cors());
 
 const app = express();
 
