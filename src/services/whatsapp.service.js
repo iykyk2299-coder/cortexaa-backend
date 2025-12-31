@@ -31,10 +31,11 @@ export const triggerWhatsAppAutomation = async (data, requestId) => {
             // text: { body: message }
         };
 
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${env.WHATSAPP_API_KEY}`
-        };
+       const headers = {
+  "Content-Type": "application/json",
+  "Authorization": `Bearer ${' EAARJiUEU14EBQf59GdZCV5qoBHRe3LQh1wSXHYcvsSPEl2Str8UHvtpBttNb8lSKwLBfcTfguZC3NEZABZAAkQE4KZBuC6ZBYc9xPMbUWrlxkZBxdbPgOlC5l6BLI9ZCyNRdvPASFGmyXakcrJeeAIZAzAlEgWT8B6og5EJjEoUZB1KcM3LO21ujTKBJuZCKZC3WCWgMZCyPUsMECABKl1kdDCjZCmx1l2998vy8lpDLZCyRA6EKjhsh7AUZB1rhVWlhKawa2R7ZAecWFC7rVJB6JK1T3TyF3jNub'}`,
+};
+
 
         const response = await axios.post(env.WHATSAPP_PROVIDER_URL, payload, { headers });
 
