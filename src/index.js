@@ -1,17 +1,18 @@
 import express from "express";
 import cors from "cors";
 
+const app = express();
+
+/* 🔥 CORS — add before routes */
 app.use(cors());
 app.options("*", cors());
-
-const app = express();
 
 /* Root check */
 app.get("/", (req, res) => {
   res.send("Cortexaa backend alive");
 });
 
-/* ✅ Health check */
+/* Health check */
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
