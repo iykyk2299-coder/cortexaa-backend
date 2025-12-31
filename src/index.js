@@ -1,33 +1,48 @@
-import express from 'express';
-import cors from 'cors';
+import express from "express";
+import cors from "cors";
 
-import env from './config/env.js';
-import corsOptions from './config/cors.js';
-
-import { requestLogger } from './middlewares/logger.middleware.js';
-import { errorHandler } from './middlewares/error.middleware.js';
-import whatsappRoutes from './routes/whatsapp.routes.js';
+import env from "./config/env.js";
+import whatsappRoutes from "./routes/whatsapp.routes.js";
+import { requestLogger } from "./middlewares/logger.middleware.js";
+import { errorHandler } from "./middlewares/error.middleware.js";
 
 const app = express();
 
 /**
- * 🔥 1. CORS FIRST (adds headers)
+ * ✅ SIMPLE, SAFE CORS (NO OPTIONS HANDLING)
  */
-app.use(cors(corsOptions));
+app.use(cors());
 
 /**
- * 🔥 2. HANDLE PREFLIGHT ONCE (clean exit)
- */
-app.options('*', (req, res) => {
-  res.sendStatus(204);
-});
-
-/**
- * 3. Body parser
+ * Body parser
  */
 app.use(express.json());
 
 /**
- * 4. Observability
+ * Logger
  */
 app.use(requestLogger);
+
+/**
+ * Health
+ */
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
+/**
+ * Routes
+ */
+app.use("/api/whatsapp", whatsappRoutes);
+
+/**
+ * Error handler
+ */
+app.use(errorHandler);
+
+/**
+ * Start
+ */
+app.listen(env.PORT, () => {
+  console.log(`Server running on ${env.PORT}`);
+});
