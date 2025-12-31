@@ -11,17 +11,23 @@ import whatsappRoutes from './routes/whatsapp.routes.js';
 const app = express();
 
 /**
- * 🔥 CORS — MUST BE FIRST
+ * 🔥 1. CORS FIRST (adds headers)
  */
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // ✅ THIS LINE
 
 /**
- * Body parser
+ * 🔥 2. HANDLE PREFLIGHT ONCE (clean exit)
+ */
+app.options('*', (req, res) => {
+  res.sendStatus(204);
+});
+
+/**
+ * 3. Body parser
  */
 app.use(express.json());
 
 /**
- * Observability
+ * 4. Observability
  */
 app.use(requestLogger);
